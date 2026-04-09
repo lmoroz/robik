@@ -1,3 +1,12 @@
+## [1.5.0] 2026-04-09 12:38
+
+- Add operational logging: incoming message, LLM request/response, errors with clean output
+- Add `bot.catch()` global error handler for unhandled middleware errors
+- Wrap error reply `ctx.reply()` in try/catch to prevent crash on Telegram API failure
+- Add `unhandledRejection` and `uncaughtException` handlers in app.ts
+- Use `bot.start({ onStart })` callback instead of manual log
+- Mark section 5 of todo.md as complete
+
 ## [1.4.0] 2026-04-09 12:07
 
 - Wire `bot.on('message:text')` handler: call `askLlm` with user text, reply with LLM response
