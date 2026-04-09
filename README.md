@@ -36,6 +36,7 @@ Telegram -> Bot -> Ollama -> Bot -> Telegram
 TELEGRAM_BOT_TOKEN=your_telegram_bot_token
 OLLAMA_BASE_URL=http://127.0.0.1:11434
 OLLAMA_MODEL=qwen3:0.6b
+OLLAMA_TIMEOUT_MS=60000
 SYSTEM_PROMPT=
 LOG_LEVEL=info
 ```

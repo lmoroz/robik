@@ -1,3 +1,10 @@
+## [1.3.0] 2026-04-09 11:40
+
+- Rewrite `src/llm/client.ts`: named options object, `AbortSignal.timeout`, network/HTTP error handling, response normalization
+- Add `LlmUnavailableError` with `userMessage` (friendly Russian text) and technical `message` for logs
+- Add `OLLAMA_TIMEOUT_MS` env var to config, `.env.example`, and README
+- Mark section 3 of todo.md as complete
+
 ## [1.2.0] 2026-04-09 11:03
 
 - Add config module (`src/config/env.ts`) with fail-fast validation and defaults
