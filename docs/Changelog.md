@@ -1,3 +1,9 @@
+## [1.2.0] 2026-04-09 11:03
+
+- Add config module (`src/config/env.ts`) with fail-fast validation and defaults
+- Refactor `src/app.ts` to use centralized `loadConfig()` instead of inline env checks
+- Mark section 2 of todo.md as complete
+
 ## [1.1.0] 2026-04-09 10:32
 
 - Add grammY bot factory (`src/telegram/bot.ts`) with polling init

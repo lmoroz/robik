@@ -1,13 +1,9 @@
-import 'dotenv/config';
-
+import { loadConfig } from './config/env.js';
 import { createBot } from './telegram/bot.js';
 
-const token = process.env['TELEGRAM_BOT_TOKEN'];
-if (!token) {
-  throw new Error('TELEGRAM_BOT_TOKEN is required');
-}
+const config = loadConfig();
 
-const bot = createBot(token);
+const bot = createBot(config.telegramBotToken);
 
 console.log('Bot starting...');
 void bot.start();
