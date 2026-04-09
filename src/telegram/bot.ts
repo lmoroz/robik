@@ -50,7 +50,8 @@ export function createBot(config: Config): Bot {
     await ctx.answerCallbackQuery({ text: `Выбрана: ${currentModel}` });
   });
 
-  bot.on('message:text', async (ctx) => {
+  /** Process a single text message — runs concurrently, never blocks polling. */
+  async function handleTextMessage(ctx: import('grammy').Context & { message: { text: string } }): Promise<void> {
     const user = ctx.from?.username ?? ctx.from?.id ?? 'unknown';
     const text = ctx.message.text;
     console.log(`[msg] from=${user} text="${text.length > 80 ? text.slice(0, 80) + '…' : text}"`);
@@ -87,6 +88,13 @@ export function createBot(config: Config): Bot {
         console.error(`[err] failed to send reply to user: ${replyError}`);
       }
     }
+  }
+
+  /* Fire-and-forget: handler returns immediately so grammY picks up the next update. */
+  bot.on('message:text', (ctx) => {
+    handleTextMessage(ctx).catch((err) =>
+      console.error(`[err] unhandled in handleTextMessage: ${err}`),
+    );
   });
 
   bot.catch((err) => {

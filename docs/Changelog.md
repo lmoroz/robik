@@ -1,3 +1,9 @@
+## [1.7.1] 2026-04-09 23:29
+
+- Fix concurrent message handling: use fire-and-forget pattern so grammY processes updates in parallel
+- Fix font missing in production build: copy `src/image/fonts/` to `dist/image/fonts/` in build script
+- Update prompts.md with session history
+
 ## [1.7.0] 2026-04-09 23:02
 
 - Add retro image renderer (`src/image/renderer.ts`): Press Start 2P font, blue BK-0010 style background, scanline effect, status bar with model name
