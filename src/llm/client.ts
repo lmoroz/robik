@@ -1,3 +1,18 @@
+export interface OllamaModel {
+  name: string;
+}
+
+export async function listModels(baseUrl: string): Promise<OllamaModel[]> {
+  const response = await fetch(`${baseUrl}/api/tags`);
+  if (!response.ok) {
+    throw new Error(`Ollama returned ${response.status} ${response.statusText}`);
+  }
+  const data = (await response.json()) as { models?: { name: string }[] };
+  const models = data.models ?? [];
+
+  return models.filter((m) => !m.name.includes('embed'));
+}
+
 export class LlmUnavailableError extends Error {
   readonly userMessage: string;
 
@@ -14,6 +29,7 @@ export interface AskLlmOptions {
   baseUrl: string;
   model: string;
   prompt: string;
+  system?: string;
   timeoutMs: number;
 }
 
@@ -21,15 +37,19 @@ export async function askLlm({
   baseUrl,
   model,
   prompt,
+  system,
   timeoutMs,
 }: AskLlmOptions): Promise<string> {
   let response: Response;
+
+  const body: Record<string, unknown> = { model, prompt, stream: false };
+  if (system) body.system = system;
 
   try {
     response = await fetch(`${baseUrl}/api/generate`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model, prompt, stream: false }),
+      body: JSON.stringify(body),
       signal: AbortSignal.timeout(timeoutMs),
     });
   } catch (error: unknown) {

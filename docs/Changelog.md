@@ -1,3 +1,13 @@
+## [1.6.0] 2026-04-09 13:12
+
+- Add `/start` command with inline keyboard for model selection
+- Add `/model` command to switch active LLM model at runtime
+- Add `listModels()` to fetch available Ollama models, filtering out embedding models
+- Add `SYSTEM_PROMPT=YES` support: reads `SYSTEM_PROMPT.md` at startup, passes as `system` field to Ollama API
+- Prefix all bot replies with `[model-name]`
+- Global model state in process memory, resets on restart
+- Mark section 6 (bonuses) of todo.md as complete
+
 ## [1.5.0] 2026-04-09 12:38
 
 - Add operational logging: incoming message, LLM request/response, errors with clean output
