@@ -1,0 +1,32 @@
+{
+  "name": "telegram-bot-s-lokalnoj-llm",
+  "version": "1.0.0",
+  "description": "Проект под домашнее задание: Telegram-бот, который принимает текстовые сообщения, отправляет их в локальную LLM и возвращает ответ обратно в Telegram.",
+  "main": "dist/app.js",
+  "scripts": {
+    "dev": "tsx watch src/app.ts",
+    "build": "tsc",
+    "start": "node dist/app.js",
+    "check": "tsc --noEmit && eslint .",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "dotenv": "^17.4.1",
+    "grammy": "^1.42.0"
+  },
+  "devDependencies": {
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "@types/node": "^25.5.2",
+    "eslint": "^10.2.0",
+    "eslint-plugin-perfectionist": "^5.8.0",
+    "jiti": "^2.6.1",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2",
+    "typescript-eslint": "^8.58.1"
+  }
+}
