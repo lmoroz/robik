@@ -5,8 +5,8 @@
 - [x] Инициализировать `Node.js + TypeScript` проект.
 - [x] Добавить базовые npm-скрипты: `dev`, `build`, `start`, `check`.
 - [x] Настроить `tsconfig.json`.
-- [ ] Подключить библиотеку для Telegram Bot API с `polling`.
-- [ ] Подключить HTTP-клиент для вызова Ollama.
+- [x] Подключить библиотеку для Telegram Bot API с `polling`.
+- [x] Подключить HTTP-клиент для вызова Ollama.
 - [x] Добавить `.env.example`.
 - [x] Написать `Dockerfile` для контейнеризации бота.
 

@@ -1,3 +1,11 @@
+## [1.1.0] 2026-04-09 10:32
+
+- Add grammY bot factory (`src/telegram/bot.ts`) with polling init
+- Add Ollama HTTP client (`src/llm/client.ts`) using native fetch
+- Wire entry point (`src/app.ts`) to load dotenv, create bot, start polling
+- Add `"types": ["node"]` to tsconfig.json
+- Mark section 1 of todo.md as complete
+
 ## [1.0.0] 2026-04-09 10:01
 
 - Add project scaffolding: package.json, tsconfig.json, ESLint config, Dockerfile
