@@ -1,3 +1,13 @@
+## [1.7.0] 2026-04-09 23:02
+
+- Add retro image renderer (`src/image/renderer.ts`): Press Start 2P font, blue BK-0010 style background, scanline effect, status bar with model name
+- Add `@napi-rs/canvas` dependency for server-side PNG rendering
+- Replace text replies with photo replies in `bot.ts` using `replyWithPhoto`
+- Add `SYSTEM_PROMPT.md` with Robik 8-bit computer persona
+- Add `docs/propmpts.md` with full prompt history
+- Update README: document retro image output, remove readiness checklist, add prompts.md link
+- Update spec.md: output is now a retro PNG image instead of plain text
+
 ## [1.6.1] 2026-04-09 13:37
 
 - Add "typing" chat action indicator while waiting for LLM response

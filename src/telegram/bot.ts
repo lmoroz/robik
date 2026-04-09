@@ -1,6 +1,7 @@
-import { Bot, InlineKeyboard } from 'grammy';
+import { Bot, InlineKeyboard, InputFile } from 'grammy';
 
 import { type Config } from '../config/env.js';
+import { renderRetroImage } from '../image/renderer.js';
 import { askLlm, listModels, LlmUnavailableError } from '../llm/client.js';
 
 export function createBot(config: Config): Bot {
@@ -72,7 +73,8 @@ export function createBot(config: Config): Bot {
         clearInterval(typingInterval);
       }
       console.log(`[llm] response received (${reply.length} chars)`);
-      await ctx.reply(`[${currentModel}]\n\n${reply}`);
+      const image = renderRetroImage(reply, currentModel);
+      await ctx.replyWithPhoto(new InputFile(image, 'response.png'));
     } catch (error) {
       const isLlmError = error instanceof LlmUnavailableError;
       const message = isLlmError
