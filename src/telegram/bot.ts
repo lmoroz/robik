@@ -55,14 +55,22 @@ export function createBot(config: Config): Bot {
     console.log(`[msg] from=${user} text="${text.length > 80 ? text.slice(0, 80) + '…' : text}"`);
 
     try {
+      await ctx.replyWithChatAction('typing');
+      const typingInterval = setInterval(() => ctx.replyWithChatAction('typing').catch(() => {}), 5000);
+
       console.log(`[llm] sending to ${currentModel}...`);
-      const reply = await askLlm({
-        baseUrl: config.ollamaBaseUrl,
-        model: currentModel,
-        prompt: text,
-        system: config.systemPrompt || undefined,
-        timeoutMs: config.ollamaTimeoutMs,
-      });
+      let reply: string;
+      try {
+        reply = await askLlm({
+          baseUrl: config.ollamaBaseUrl,
+          model: currentModel,
+          prompt: text,
+          system: config.systemPrompt || undefined,
+          timeoutMs: config.ollamaTimeoutMs,
+        });
+      } finally {
+        clearInterval(typingInterval);
+      }
       console.log(`[llm] response received (${reply.length} chars)`);
       await ctx.reply(`[${currentModel}]\n\n${reply}`);
     } catch (error) {

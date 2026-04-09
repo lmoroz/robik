@@ -1,3 +1,8 @@
+## [1.6.1] 2026-04-09 13:37
+
+- Add "typing" chat action indicator while waiting for LLM response
+- Repeat typing action every 5s via interval, cleaned up in `finally` block
+
 ## [1.6.0] 2026-04-09 13:12
 
 - Add `/start` command with inline keyboard for model selection
