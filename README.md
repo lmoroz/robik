@@ -20,7 +20,7 @@
 - `Ollama`
 - модель по умолчанию: `qwen3:0.6b` или `qwen3.5:0.5b` или `gpt-oss:20b`
 
-## Планируемая архитектура
+## Архитектура
 
 ```text
 Telegram -> Bot -> Ollama -> Bot -> Telegram
@@ -44,19 +44,36 @@ LOG_LEVEL=info
 
 ## Предварительные требования
 
-1. Установить `Node.js 22+`.
-2. Установить и запустить `Ollama`.
-3. Скачать локальную модель, например:
+1. Установить и запустить `Ollama`.
+2. Скачать локальную модель, например:
 
 ```bash
 ollama pull qwen3:0.6b
 ```
 
-4. Создать Telegram-бота через `@BotFather` и получить токен.
+3. Создать Telegram-бота через `@BotFather` и получить токен.
 
-## Целевой запуск проекта
+## Запуск через Docker (рекомендуется, Node.js не нужен)
 
-После реализации кодовой части ожидается такой сценарий:
+```bash
+# Собрать образ
+docker build -t telegram-llm-bot .
+
+# Скопировать .env.example → .env и заполнить переменные
+cp .env.example .env
+```
+
+Важно: Ollama работает на хосте, а не внутри контейнера. Поменяй `OLLAMA_BASE_URL` в `.env`:
+
+- **Windows / macOS:** `http://host.docker.internal:11434`
+- **Linux:** `http://172.17.0.1:11434`
+
+```bash
+# Запустить контейнер
+docker run --env-file .env telegram-llm-bot
+```
+
+## Запуск без Docker (требует Node.js 22+)
 
 ```bash
 npm install
