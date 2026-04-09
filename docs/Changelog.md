@@ -1,3 +1,10 @@
+## [1.4.0] 2026-04-09 12:07
+
+- Wire `bot.on('message:text')` handler: call `askLlm` with user text, reply with LLM response
+- Handle `LlmUnavailableError` with friendly message, generic fallback for unexpected errors
+- Pass full `Config` to `createBot` instead of just token
+- Mark section 4 of todo.md as complete
+
 ## [1.3.0] 2026-04-09 11:40
 
 - Rewrite `src/llm/client.ts`: named options object, `AbortSignal.timeout`, network/HTTP error handling, response normalization
