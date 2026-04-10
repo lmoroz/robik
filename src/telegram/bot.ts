@@ -7,6 +7,7 @@ import { askLlm, listModels, LlmUnavailableError } from '../llm/client.js';
 export function createBot(config: Config): Bot {
   const bot = new Bot(config.telegramBotToken);
 
+  /* Global mutable state — intentional for this stateless educational project (no DB). */
   let currentModel = config.ollamaModel;
 
   async function sendModelPicker(chatId: number, text: string): Promise<void> {
@@ -24,7 +25,7 @@ export function createBot(config: Config): Bot {
         keyboard.text(label, `model:${model.name}`).row();
       }
 
-      await bot.api.sendMessage(chatId, text, { reply_markup: keyboard, parse_mode: 'Markdown' });
+      await bot.api.sendMessage(chatId, text, { reply_markup: keyboard, parse_mode: 'HTML' });
     } catch (error) {
       console.error(`[err] failed to list models: ${error}`);
       await bot.api.sendMessage(chatId, 'Не удалось получить список моделей. Ollama доступна?');
@@ -32,26 +33,27 @@ export function createBot(config: Config): Bot {
   }
 
   bot.command('start', async (ctx) => {
-    await sendModelPicker(ctx.chat.id, `Привет! Текущая модель: *${currentModel}*\nВыбери модель:`);
+    await sendModelPicker(ctx.chat.id, `Привет! Текущая модель: <b>${currentModel}</b>\nВыбери модель:`);
   });
 
   bot.command('model', async (ctx) => {
-    await sendModelPicker(ctx.chat.id, `Текущая модель: *${currentModel}*\nВыбери модель:`);
+    await sendModelPicker(ctx.chat.id, `Текущая модель: <b>${currentModel}</b>\nВыбери модель:`);
   });
 
   bot.callbackQuery(/^model:/, async (ctx) => {
-    const selected = ctx.callbackQuery.data.slice('model:'.length);
-    currentModel = selected;
+    currentModel = ctx.callbackQuery.data.slice('model:'.length);
     console.log(`[model] switched to ${currentModel} by ${ctx.from?.username ?? ctx.from?.id}`);
 
-    await ctx.editMessageText(`Модель переключена на *${currentModel}*`, {
-      parse_mode: 'Markdown',
+    await ctx.editMessageText(`Модель переключена на <b>${currentModel}</b>`, {
+      parse_mode: 'HTML',
     });
     await ctx.answerCallbackQuery({ text: `Выбрана: ${currentModel}` });
   });
 
+  type TextMessageContext = import('grammy').Context & { message: { text: string } };
+
   /** Process a single text message — runs concurrently, never blocks polling. */
-  async function handleTextMessage(ctx: import('grammy').Context & { message: { text: string } }): Promise<void> {
+  async function handleTextMessage(ctx: TextMessageContext): Promise<void> {
     const user = ctx.from?.username ?? ctx.from?.id ?? 'unknown';
     const text = ctx.message.text;
     console.log(`[msg] from=${user} text="${text.length > 80 ? text.slice(0, 80) + '…' : text}"`);

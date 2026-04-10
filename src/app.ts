@@ -16,4 +16,7 @@ const bot = createBot(config);
 
 bot.start({
   onStart: () => console.log('Bot is running.'),
+}).catch((err) => {
+  console.error('Failed to start bot:', err);
+  process.exit(1);
 });

@@ -9,7 +9,6 @@ export interface Config {
   ollamaModel: string;
   ollamaTimeoutMs: number;
   systemPrompt: string;
-  logLevel: string;
 }
 
 function requireEnv(name: string): string {
@@ -41,13 +40,20 @@ function loadSystemPrompt(): string {
   }
 }
 
+function parseTimeoutMs(value: string): number {
+  const ms = Number(value);
+  if (!Number.isFinite(ms) || ms <= 0) {
+    throw new Error(`Invalid OLLAMA_TIMEOUT_MS: "${value}" — must be a positive number`);
+  }
+  return ms;
+}
+
 export function loadConfig(): Config {
   return {
     telegramBotToken: requireEnv('TELEGRAM_BOT_TOKEN'),
     ollamaBaseUrl: optionalEnv('OLLAMA_BASE_URL', 'http://127.0.0.1:11434'),
     ollamaModel: optionalEnv('OLLAMA_MODEL', 'qwen3:0.6b'),
-    ollamaTimeoutMs: Number(optionalEnv('OLLAMA_TIMEOUT_MS', '60000')),
+    ollamaTimeoutMs: parseTimeoutMs(optionalEnv('OLLAMA_TIMEOUT_MS', '60000')),
     systemPrompt: loadSystemPrompt(),
-    logLevel: optionalEnv('LOG_LEVEL', 'info'),
   };
 }

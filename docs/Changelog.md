@@ -1,3 +1,14 @@
+## [1.7.2] 2026-04-10 08:28
+
+- Fix Dockerfile: copy SYSTEM_PROMPT.md into Docker image (Issue 1)
+- Validate OLLAMA_TIMEOUT_MS as a positive number (Issue 2)
+- Handle bot.start() rejection with process.exit(1) (Issue 3)
+- Switch parse_mode from Markdown to HTML to avoid breakage on special chars in model names (Issue 9)
+- Remove unused logLevel config field (Issue 5)
+- Extract TextMessageContext type alias (Issue 6)
+- Inline redundant `selected` variable in callback handler (Issue 8)
+- Add comment about intentional global mutable model state (Issue 4)
+
 ## [1.7.1] 2026-04-10 08:00
 
 - Update README: add bot link, prompts link, LLM usage notes
