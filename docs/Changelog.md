@@ -1,3 +1,9 @@
+## [1.7.1] 2026-04-10 08:00
+
+- Update README: add bot link, prompts link, LLM usage notes
+- Fix markdown formatting in prompts.md (trailing spaces for line breaks)
+- Add commit-message-rule.md documentation
+
 ## [1.7.1] 2026-04-09 23:29
 
 - Fix concurrent message handling: use fire-and-forget pattern so grammY processes updates in parallel

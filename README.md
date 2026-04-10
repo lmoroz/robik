@@ -2,7 +2,13 @@
 
 Проект под домашнее задание: Telegram-бот, который принимает текстовые сообщения, отправляет их в локальную LLM и возвращает ответ обратно в Telegram.
 
-Текущий репозиторий стартует в формате `SDD-lite`: сначала фиксируем требования и план, потом реализуем код. Исходная постановка задачи: [Yonote](https://larchanka.yonote.ru/share/0651382b-e62a-4c82-8da4-d13315ae758b/doc/telegram-bot-s-lokalnoj-llm-NLQbGlDRTJ).
+https://t.me/ALU_ROBIK_BOT  
+
+Текущий репозиторий стартует в формате `SDD-lite`: сначала фиксируем требования и план, потом реализуем код. Исходная постановка задачи: [Yonote](https://larchanka.yonote.ru/share/0651382b-e62a-4c82-8da4-d13315ae758b/doc/telegram-bot-s-lokalnoj-llm-NLQbGlDRTJ).  
+Набор промптов: [prompts.md](docs/prompts.md).  
+Первому промпту предшествовала обстоятельная беседа о том, что такое spec driven development для llm-агентов и какой подход уместен в таком маленьком проекте.  
+Использовались LLM: openai codex и claude code.  
+Все коммиты делались агентами, используя команду/правило/workflow из [commit-message-rule.md](docs/commit-message-rule.md)
 
 ## Что должен делать бот
 
