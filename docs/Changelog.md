@@ -1,3 +1,8 @@
+## [1.7.3] 2026-04-10 09:18
+
+- Register bot commands via `setMyCommands` so they appear in Telegram menu button
+- Update prompts.md with session prompt
+
 ## [1.7.2] 2026-04-10 08:47
 
 - Fix Dockerfile: use wildcard COPY for optional SYSTEM_PROMPT.md

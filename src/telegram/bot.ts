@@ -103,5 +103,10 @@ export function createBot(config: Config): Bot {
     console.error(`[err] unhandled: ${err.error}`);
   });
 
+  bot.api.setMyCommands([
+    { command: 'start', description: 'Начать работу / выбрать модель' },
+    { command: 'model', description: 'Сменить текущую модель LLM' },
+  ]).catch(console.error);
+
   return bot;
 }
