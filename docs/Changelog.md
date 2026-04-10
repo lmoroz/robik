@@ -1,3 +1,10 @@
+## [1.8.0] 2026-04-10 09:25
+
+- Add `ImageVariant` type to renderer with 3 color schemes: response (blue), system (green), error (red)
+- Replace all plain-text bot messages with retro image photos
+- Model switch confirmation, missing models, LLM errors — all rendered as styled PNGs
+- Add `sendRetroPhoto` helper in bot.ts; use `deleteMessage` + photo for callback handler
+
 ## [1.7.3] 2026-04-10 09:18
 
 - Register bot commands via `setMyCommands` so they appear in Telegram menu button

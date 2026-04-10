@@ -1,7 +1,7 @@
 import { Bot, InlineKeyboard, InputFile } from 'grammy';
 
 import { type Config } from '../config/env.js';
-import { renderRetroImage } from '../image/renderer.js';
+import { type ImageVariant, renderRetroImage } from '../image/renderer.js';
 import { askLlm, listModels, LlmUnavailableError } from '../llm/client.js';
 
 export function createBot(config: Config): Bot {
@@ -10,12 +10,22 @@ export function createBot(config: Config): Bot {
   /* Global mutable state — intentional for this stateless educational project (no DB). */
   let currentModel = config.ollamaModel;
 
+  async function sendRetroPhoto(
+    chatId: number,
+    text: string,
+    variant: ImageVariant = 'response',
+    model?: string,
+  ): Promise<void> {
+    const image = renderRetroImage(text, model ?? currentModel, variant);
+    await bot.api.sendPhoto(chatId, new InputFile(image, 'response.png'));
+  }
+
   async function sendModelPicker(chatId: number, text: string): Promise<void> {
     try {
       const models = await listModels(config.ollamaBaseUrl);
 
       if (models.length === 0) {
-        await bot.api.sendMessage(chatId, 'В Ollama не найдено текстовых моделей.');
+        await sendRetroPhoto(chatId, 'В Ollama не найдено текстовых моделей.', 'error');
         return;
       }
 
@@ -28,7 +38,7 @@ export function createBot(config: Config): Bot {
       await bot.api.sendMessage(chatId, text, { reply_markup: keyboard, parse_mode: 'HTML' });
     } catch (error) {
       console.error(`[err] failed to list models: ${error}`);
-      await bot.api.sendMessage(chatId, 'Не удалось получить список моделей. Ollama доступна?');
+      await sendRetroPhoto(chatId, 'Не удалось получить список моделей. Ollama доступна?', 'error');
     }
   }
 
@@ -44,9 +54,8 @@ export function createBot(config: Config): Bot {
     currentModel = ctx.callbackQuery.data.slice('model:'.length);
     console.log(`[model] switched to ${currentModel} by ${ctx.from?.username ?? ctx.from?.id}`);
 
-    await ctx.editMessageText(`Модель переключена на <b>${currentModel}</b>`, {
-      parse_mode: 'HTML',
-    });
+    await ctx.deleteMessage();
+    await sendRetroPhoto(ctx.chat!.id, `Модель переключена на ${currentModel}`, 'system');
     await ctx.answerCallbackQuery({ text: `Выбрана: ${currentModel}` });
   });
 
@@ -85,7 +94,7 @@ export function createBot(config: Config): Bot {
         : 'Произошла непредвиденная ошибка. Попробуй позже!';
       console.error(`[err] ${isLlmError ? error.message : error}`);
       try {
-        await ctx.reply(message);
+        await sendRetroPhoto(ctx.message.chat.id, message, 'error');
       } catch (replyError) {
         console.error(`[err] failed to send reply to user: ${replyError}`);
       }

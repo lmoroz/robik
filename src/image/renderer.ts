@@ -12,11 +12,22 @@ const FONT_SIZE = 16;
 const STATUS_HEIGHT = 36;
 const SEPARATOR_HEIGHT = 2;
 const MAX_HEIGHT = 2048;
-const BG_COLOR = '#4080C0';
-const TEXT_COLOR = '#FFFFFF';
-const STATUS_COLOR = '#80D0FF';
 const FONT = `${FONT_SIZE}px PressStart2P`;
 const STATUS_FONT = `${FONT_SIZE - 2}px PressStart2P`;
+
+export type ImageVariant = 'response' | 'system' | 'error';
+
+interface VariantStyle {
+  bg: string;
+  text: string;
+  status: string;
+}
+
+const VARIANT_STYLES: Record<ImageVariant, VariantStyle> = {
+  response: { bg: '#4080C0', text: '#FFFFFF', status: '#80D0FF' },
+  system: { bg: '#2E7D32', text: '#E8F5E9', status: '#A5D6A7' },
+  error: { bg: '#8B1A1A', text: '#FFD6D6', status: '#FF8A80' },
+};
 
 function wrapText(ctx: SKRSContext2D, text: string, maxWidth: number): string[] {
   const lines: string[] = [];
@@ -48,7 +59,8 @@ function wrapText(ctx: SKRSContext2D, text: string, maxWidth: number): string[] 
   return lines;
 }
 
-export function renderRetroImage(text: string, model?: string): Buffer {
+export function renderRetroImage(text: string, model?: string, variant: ImageVariant = 'response'): Buffer {
+  const style = VARIANT_STYLES[variant];
   // Measure pass — compute needed height
   const measure = createCanvas(CANVAS_WIDTH, 1);
   const mCtx = measure.getContext('2d');
@@ -66,7 +78,7 @@ export function renderRetroImage(text: string, model?: string): Buffer {
   const ctx = canvas.getContext('2d');
 
   // Background
-  ctx.fillStyle = BG_COLOR;
+  ctx.fillStyle = style.bg;
   ctx.fillRect(0, 0, CANVAS_WIDTH, height);
 
   // Scanline effect
@@ -76,7 +88,7 @@ export function renderRetroImage(text: string, model?: string): Buffer {
   }
 
   // Text
-  ctx.fillStyle = TEXT_COLOR;
+  ctx.fillStyle = style.text;
   ctx.font = FONT;
   ctx.textBaseline = 'top';
 
@@ -91,13 +103,13 @@ export function renderRetroImage(text: string, model?: string): Buffer {
     ctx.fillText(visibleLines[i], PADDING, PADDING + i * LINE_HEIGHT);
   }
 
-  // White separator line
+  // Separator line
   const actualStatusTop = PADDING + visibleLines.length * LINE_HEIGHT + PADDING;
-  ctx.fillStyle = TEXT_COLOR;
+  ctx.fillStyle = style.text;
   ctx.fillRect(PADDING, actualStatusTop, CANVAS_WIDTH - PADDING * 2, SEPARATOR_HEIGHT);
 
-  // Status bar (bottom, same bg as main)
-  ctx.fillStyle = STATUS_COLOR;
+  // Status bar
+  ctx.fillStyle = style.status;
   ctx.font = STATUS_FONT;
   ctx.textBaseline = 'middle';
   const statusText = model ? `ROBIK // ${model.toUpperCase()}` : 'ROBIK // READY';
