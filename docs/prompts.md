@@ -134,11 +134,11 @@ at askLlm (E:\Develop\larchanka-training\telegram-bot-s-lokalnoj-llm\dist\llm\cl
 
 ---
 
-
+так, у нас тут code review подвалил, давай пробежимся и всё исправим
 
 ---
 
-
+ты добавил копирование SYSTEm_PROPMPT.md , а чо будет, если файла не существует?
 
 ---
 

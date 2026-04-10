@@ -1,3 +1,10 @@
+## [1.7.2] 2026-04-10 08:47
+
+- Fix Dockerfile: use wildcard COPY for optional SYSTEM_PROMPT.md
+- Add code review document (docs/review-2025-07-14.md)
+- Mark todo sections 7-9 as complete
+- Update prompts.md with session history
+
 ## [1.7.2] 2026-04-10 08:28
 
 - Fix Dockerfile: copy SYSTEM_PROMPT.md into Docker image (Issue 1)
